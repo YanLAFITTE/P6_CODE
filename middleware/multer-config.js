@@ -1,3 +1,4 @@
+// Package that allows to handle incoming files in HTTP requests.
 const multer = require("multer");
 
 const MIME_TYPES = {
@@ -11,9 +12,9 @@ const storage = multer.diskStorage({
     callback(null, "images");
   },
   filename: (req, file, callback) => {
-    const name = file.originalname.split(" ").join("_");
+    const name = file.originalname.split(" ").join("_").split(".")[0];
     const extension = MIME_TYPES[file.mimetype];
-    callback(null, name + Date.now() + "." + extension);
+    callback(null, name + "_" + Date.now() + "." + extension);
   },
 });
 

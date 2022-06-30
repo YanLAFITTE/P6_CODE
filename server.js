@@ -1,6 +1,7 @@
 const http = require("http");
 const app = require("./app");
 
+// NormalizePort returns a valid port, whether supplied as a number or a string.
 const normalizePort = (val) => {
   const port = parseInt(val, 10);
 
@@ -16,6 +17,7 @@ const normalizePort = (val) => {
 const port = normalizePort(process.env.PORT || "3000");
 app.set("port", port);
 
+// Error management.
 const errorHandler = (error) => {
   if (error.syscall !== "listen") {
     throw error;
@@ -37,6 +39,7 @@ const errorHandler = (error) => {
   }
 };
 
+// Create a server with express that uses app.
 const server = http.createServer(app);
 
 server.on("error", errorHandler);

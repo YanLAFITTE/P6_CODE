@@ -1,12 +1,14 @@
 // Package that allows to handle incoming files in HTTP requests.
 const multer = require("multer");
 
+// Set image format.
 const MIME_TYPES = {
   "image/jpg": "jpg",
   "image/jpeg": "jpg",
   "image/png": "png",
 };
 
+// Configures the format of the images and their destination.
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
     callback(null, "images");

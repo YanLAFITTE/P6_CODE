@@ -14,12 +14,25 @@ const mongoose = require("mongoose");
 // The path module provides utilities for working with file and directory paths.
 const path = require("path");
 
+/*
+Environment variables
+*/
+
 const keyDB = process.env.DB_PASSWORD;
 const userDB = process.env.DB_USER;
 const nameDB = process.env.DB_NAME;
 
+/*
+Routes
+*/
+
 const saucesRoutes = require("./routes/sauces");
 const usersRoutes = require("./routes/users");
+
+/*
+Database
+*/
+
 const uri = `mongodb+srv://${userDB}:${keyDB}@cluster0.cjh79uw.mongodb.net/${nameDB}?retryWrites=true&w=majority`;
 
 // Connection to the MongoDB database.
@@ -73,10 +86,7 @@ app.use(express.json());
 // To serve static files such as images.
 app.use("/images", express.static(path.join(__dirname, "images")));
 
-/*
-Routes
-*/
-
+// Routes.
 app.use("/api/sauces", saucesRoutes);
 app.use("/api/auth", usersRoutes);
 

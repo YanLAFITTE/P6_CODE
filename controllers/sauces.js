@@ -1,7 +1,15 @@
-// Prodcut model import.
+/*
+Models
+*/
+
 const Sauce = require("../models/Sauce");
+
 // The Node.js file system module allows to work with the computer file system.
 const fs = require("fs");
+
+/*
+Create
+*/
 
 exports.createSauce = (req, res, next) => {
   const sauceObject = JSON.parse(req.body.sauce);
@@ -25,6 +33,10 @@ exports.createSauce = (req, res, next) => {
     .then(() => res.status(201).json({ message: "Objet enregistré !" }))
     .catch((error) => res.status(400).json({ error }));
 };
+
+/*
+Modify
+*/
 
 exports.modifySauce = (req, res, next) => {
   let sauceObject = {};
@@ -64,6 +76,10 @@ exports.modifySauce = (req, res, next) => {
     .catch((error) => res.status(400).json({ error }));
 };
 
+/*
+Delete
+*/
+
 exports.deleteSauce = (req, res, next) => {
   // Look for the product in the database.
   Sauce.findOne({ _id: req.params.id })
@@ -85,12 +101,20 @@ exports.deleteSauce = (req, res, next) => {
     .catch((error) => res.staus(500).json({ error }));
 };
 
+/*
+Get one product
+*/
+
 exports.getOneSauce = (req, res, next) => {
   // Look for the product id corresponding to the request id.
   Sauce.findOne({ _id: req.params.id })
     .then((sauce) => res.status(200).json(sauce))
     .catch((error) => res.status(404).json({ error }));
 };
+
+/*
+Get all produtcs
+*/
 
 exports.getAllSauces = (req, res, next) => {
   // Look for all  the products.
@@ -99,11 +123,15 @@ exports.getAllSauces = (req, res, next) => {
     .catch((error) => res.status(400).json({ error }));
 };
 
+/*
+Likes and dislikes
+*/
+
 exports.likeDislike = (req, res, next) => {
   const sauceId = req.params.id;
   const userId = req.body.userId;
   const like = req.body.like;
-// Add a like.
+  // Add a like.
   switch (like) {
     case 1:
       Sauce.updateOne(
@@ -113,7 +141,7 @@ exports.likeDislike = (req, res, next) => {
         .then(() => res.status(200).json({ message: "L'utilisateur aime !" }))
         .catch((error) => res.status(400).json({ error }));
       break;
-// Add a dislikes.
+    // Add a dislikes.
     case -1:
       Sauce.updateOne(
         { _id: sauceId },

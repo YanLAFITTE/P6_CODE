@@ -3,8 +3,11 @@ const Joi = require("joi");
 
 // Create a joi schema for the user model.
 const userSchema = Joi.object({
-  email: Joi.string().trim().email().required(),
-  password: Joi.string().trim().min(4).required(),
+  email: Joi.string().email({
+    minDomainSegments: 2,
+    tlds: { allow: ["com", "net"] },
+  }),
+  password: Joi.string().pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")),
 });
 
 // Export the middleware for users routes.
@@ -20,11 +23,12 @@ exports.user = (req, res, next) => {
 // Create a joi schema for the product model.
 const sauceSchema = Joi.object({
   userId: Joi.string().trim().length(24).required(),
-  name: Joi.string().trim().min(1).required(),
-  manufacturer: Joi.string().trim().min(1).required(),
-  description: Joi.string().trim().min(1).required(),
-  mainPepper: Joi.string().trim().min(1).required(),
+  name: Joi.string().trim().min(1).max(30).required(),
+  manufacturer: Joi.string().trim().min(1).max(30).required(),
+  description: Joi.string().trim().min(1).max(150).required(),
+  mainPepper: Joi.string().trim().min(1).max(30).required(),
   heat: Joi.number().integer().min(1).max(10).required(),
+  imageUrl: Joi.string().dataUri(),
 });
 
 // Export the middleware for sauces routes.
